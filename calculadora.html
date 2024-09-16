@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+    <style>
+        body {
+            font: 23pt montserrat black;
+        }
+        div.calculadora {
+            margin: 100px auto auto auto;
+            height: 500px;
+            width: 340px;
+            background-color: rgb(64, 64, 212);
+            border: 2px solid rgb(98, 73, 207);
+            box-shadow: 2px 2px 3px black;
+            border-radius: 10px;
+        }
+        input.numeros-display {
+            font: 32pt montserrat black;
+            margin: 40px 40px 0px 40px;
+            width: 250px;
+            height: 70px;
+            border-radius: 10px;
+            border-color: rgb(98, 73, 207);
+        }
+        input.numeros-display:hover {
+            background-color: rgb(230, 230, 230);
+        }
+        ul.digitos {
+            list-style: none;
+        }
+        ul.digitos li {
+            display: inline-block;
+            margin-top: 10px;
+            width: 55px;
+            height: 55px;
+            line-height: 55px;
+            color: rgb(46, 41, 68);
+            background-color: rgb(117, 126, 255);
+            border: 1pt solid rgb(77, 99, 131);
+            box-shadow: 1px 1px 2px rgb(0, 41, 153);
+            border-radius: 10px;
+            text-align: center;
+        }
+        ul.digitos li:hover {
+            background-color: rgb(20, 20, 175);
+            border: 1pt solid rgb(19, 19, 155);
+            box-shadow: 1px 1px 2px rgb(0, 28, 104);
+            color: white;
+        }
+        ul.digitos li.operadores {
+            color: rgb(255, 255, 255);
+            background-color: rgb(41, 41, 202);
+            border: 1pt solid rgb(84, 64, 172);
+            box-shadow: 1px 1px 2px rgb(0, 0, 153);
+        }
+        ul.digitos li.operadores:hover {
+            background-color: rgb(175, 241, 243);
+            color: rgb(41, 63, 68);
+            border: 1pt solid rgb(51, 215, 221);
+            box-shadow: 1px 1px 2px rgb(65, 226, 151);
+        }
+        ul.digitos li.letra-C {
+            height: 33px;
+            line-height: 33px;
+            color: white;
+            background-color: rgba(219, 37, 37, 0.945);
+            border: 1pt solid rgb(189, 78, 58);
+            box-shadow: 1px 1px 2px rgb(54, 14, 80);
+            margin-left: 200px;
+        }
+        ul.digitos li.letra-C:hover {
+            color: rgba(219, 37, 37, 0.945);
+            background-color: white;
+            border: 1pt solid whitesmoke;
+            box-shadow: 1px 1px 2px green;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculadora">
+        <input type="text" id="numeros" class="numeros-display">
+        <ul class="digitos">
+            <li class="letra-C" onclick="limparTela()">C</li>
+            <li onclick="adicionarNumero(1)">1</li>
+            <li onclick="adicionarNumero(2)">2</li>
+            <li onclick="adicionarNumero(3)">3</li>
+            <li class="operadores" onclick="fazerOperacao('soma')">+</li>
+            <li onclick="adicionarNumero(4)">4</li>
+            <li onclick="adicionarNumero(5)">5</li>
+            <li onclick="adicionarNumero(6)">6</li>
+            <li class="operadores" onclick="fazerOperacao('sub')">-</li>
+            <li onclick="adicionarNumero(7)">7</li>
+            <li onclick="adicionarNumero(8)">8</li>
+            <li onclick="adicionarNumero(9)">9</li>
+            <li class="operadores" onclick="fazerOperacao('multi')">*</li>
+            <li onclick="colocarVirgula()">,</li>
+            <li onclick="adicionarNumero(0)">0</li>
+            <li onclick="fazerOperacao('resul')">=</li>
+            <li class="operadores" onclick="fazerOperacao('div')">/</li>
+        </ul>
+    </div>
+    <div id="validacao"></div>
+    <script>
+        const visor = document.querySelector('input#numeros')
+        const visorStr = String(visor)
+        const elementos = visorStr.split('')
+        const valid = document.querySelector('div#validacao')
+        let exprecao1 = ''
+        let exprecao2 = ''
+        let operador = ''
+        visor.focus()
+
+        function validacao() {
+            valid.innerHTML = `<p>O primeiro valor é ${exprecao1} do tipo ${typeof exprecao1}<br> O segundo valor é ${exprecao2} do tipo ${typeof exprecao2}<br> O operador é ${operador}</p>`
+        }
+
+        function adicionarNumero(n) {
+            if (n != 0 ) {
+                if (exprecao2 != '') {
+                    visor.value = ''
+                    visor.value += n
+                    exprecao2 = ''
+                    validacao()
+                } else {
+                    visor.value += n
+                    validacao()
+                }
+            } else {
+                if (visor.value != '' ) {
+                    visor.value += 0
+                    validacao()
+                }
+            }
+        }
+
+        function colocarVirgula() {
+            if (elementos.indexOf(',') > 0) {
+            } else {
+                if (visor.value == '') {
+                    visor.value += '0.'
+                } else {
+                    visor.value += '.'
+                }
+            }
+        }
+
+        function fazerOperacao(oper) {
+            switch (oper) {
+                case 'soma':
+                    if (exprecao1 == '') {
+                        operador = 'soma'
+                        exprecao1 = visor.value
+                        visor.value = ''
+                        validacao()
+                    } else {
+                        operador = 'soma'
+                        exprecao2 = visor.value
+                        exprecao1 = visor.value = Number(exprecao1)+Number(exprecao2)
+                        validacao()
+                    }
+                break
+            
+                case 'sub':
+                    if (exprecao1 == '') {
+                        operador = 'sub'
+                        exprecao1 = visor.value
+                        visor.value = ''
+                        validacao()
+                    } else {
+                        operador = 'sub'
+                        exprecao2 = visor.value
+                        exprecao1 = visor.value = Number(exprecao1)-Number(exprecao2)
+                        validacao()
+                    }
+                break
+            
+                case 'multi':
+                    if (exprecao1 == '') {
+                        operador = 'multi'
+                        exprecao1 = visor.value
+                        visor.value = ''
+                        validacao()
+                    } else {
+                        operador = 'multi'
+                        exprecao2 = visor.value
+                        exprecao1 = visor.value = Number(exprecao1)*Number(exprecao2)
+                        validacao()
+                    }
+                break
+            
+                case 'div':
+                    if (exprecao1 == '') {
+                        operador = 'div'
+                        exprecao1 = visor.value
+                        visor.value = ''
+                        validacao()
+                    } else {
+                        operador = 'div'
+                        exprecao2 = visor.value
+                        exprecao1 = visor.value = Number(exprecao1)/Number(exprecao2)
+                        validacao()
+                        }
+                break
+
+                case 'resul':
+                    exprecao2 = visor.value
+                    switch (operador) {
+                        case 'soma':
+                        visor.value = Number(exprecao1)+Number(exprecao2)
+                        exprecao1 = ''
+                        validacao()
+                        break
+
+                        case 'sub':
+                        visor.value = Number(exprecao1)-Number(exprecao2)
+                        exprecao1 = ''
+                        validacao()
+                        break
+
+                        case 'multi':
+                        visor.value = Number(exprecao1)*Number(exprecao2)
+                        exprecao1 = ''
+                        validacao()
+                        break
+
+                        case 'div':
+                        visor.value = Number(exprecao1)/Number(exprecao2)
+                        exprecao1 = ''
+                        validacao()
+                        break
+                    }
+            }
+        }
+        function limparTela() {
+            visor.value = ''
+            exprecao1 = ''
+            exprecao2 = ''
+            operador = ''
+            validacao()
+        }
+    </script>
+</body>
+</html>

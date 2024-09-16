@@ -1,0 +1,34 @@
+/* Descrição da calculadora
+
+Ao digitar números:
+Os números aparecem no visor.
+
+Ao clicar na operação de soma:
+O primeiro número se torna o número do visor
+O operador vira soma
+
+Ao clicar em mais números:
+Os números aparecem no visor
+
+Ao clicar no botão de somar novamente:
+É feita a soma que:
+  - Aparece no visor e se torna o primeiro número
+  - O segundo número se torna o segundo valor digitado
+ - O operador continua o mesmo
+
+Erros:
+
+Ao ter feito uma operação de soma, por exemplo, mas clicou no botão "+" para ver o resultado, quando clica em outro operador, como subtração:
+  - O primeiro valor se torna 0 (zero)
+  - O segundo valor se torna a soma anterior
+  - O operador fica correto, sendo subtração
+     -- Se colocar mais números para subtrair:
+          --- O segundo valor é zerado
+               ---- Clicando no igual a operação fica correta
+   Quando deveria manter 
+
+Ao colocar um valor, clicar no botão de soma, digitar outro valor e clicar em subtrair para subtrair esse valor:
+  - O resultado se torna a subtração do segundo valor com o primeiro valor (sendo esse 
+     resultado se tornando o primeiro número) e o segundo valor sendo o segundo nú-
+     mero correto ao invés de mostrar o resultado da soma anterior.
+*/
